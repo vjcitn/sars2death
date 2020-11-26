@@ -1,2 +1,1 @@
-# sars2death
-superficial changes to sars2app to allow exploration of death trajectories
+sars2death -- thinned out sars2pack for sake of shinyapps.io covidTS app

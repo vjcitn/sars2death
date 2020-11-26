@@ -1,0 +1,89 @@
+---
+title: "Metaanalysis of COVID-19 incidence velocities"
+author: 
+  - "Vincent J. Carey, stvjc at channing.harvard.edu"
+  - "Sean Davis, seandavi at gmail.com"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Metaanalysis of COVID-19 incidence velocities}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# Introduction
+```{r doload}
+suppressPackageStartupMessages({
+library(sars2app)
+})
+```
+
+The `Arima*` functions of sars2app model COVID-19 incidence series.
+Using ARIMA(0,1,3) by default we get an estimate of drift and the
+standard error of this estimate.
+
+For the US as a whole, as of May 20 2020:
+```{r lkd1, cache=FALSE}
+library(sars2app)
+ej = enriched_jhu_data()
+usa_full = Arima_nation(ej, max_date="2020-05-20")
+usa_full
+```
+
+For the US dropping NY:
+```{r lkd2, cache=FALSE}
+nyd = nytimes_state_data()
+drny = Arima_drop_state(ej, nyd, max_date="2020-05-20")
+drny
+
+```{r lkd, fig.width=11, fig.height=5,cache=FALSE}
+par(mfrow=c(1,2), mar=c(4,3,2,2))
+plot(usa_full, main="USA aggregated", ylim=c(15900,36000))
+plot(drny, main="USA excluding NY", ylim=c(15900,36000) )
+```
+
+Two different data sources are used for this display, as
+certain anomalies were apparent on May 17 2020 that
+inhibited summing NYT data to get US aggregate.  The
+reconciliation of NYT, JHU and USA facts daily data could be
+of interest.
+
+# Incidence velocity estimates for contiguous 48 states and DC
+
+```{r doall,cache=FALSE}
+allst = contig_states_dc()
+allarima = lapply(allst, function(x) Arima_by_state(nyd, x))
+names(allarima) = allst
+drifts = sapply(allarima, function(x) coef(x$fit)["drift"])
+searima = function(a) sqrt(a$fit$var.coef["drift", "drift"])
+se.drifts = sapply(allarima, searima)
+```
+
+```{r lkmeta}
+library(rmeta)
+meta.summaries(drifts, se.drifts)
+```{r dorm, fig.height=10}
+o = order(drifts)
+metaplot(drifts[o], se.drifts[o], labels=allst[o], cex=.7, 
+  xlab="Incidence velocity (CHANGE in number of confirmed cases/day)", ylab="State")
+segments(rep(-350,46), seq(-49,-4), rep(-50,46), seq(-49,-4), lty=3, col="gray")
+```
+
+# Optimization of AR and MA parameters
+
+The dependence structure of fixed-length incidence series
+that are the focus of this package varies over time and between states.
+The `min_bic` function will choose BIC-minimizing AR and MA orders by searching
+over a grid.
+We have tools to survey states in this way from a specified time point, and
+to report summaries.
+```{r lklkaaa}
+data(min_bic_2020_05_20)
+min_bic_2020_05_20
+min_bic_2020_05_20[["New York"]]
+```

@@ -1,0 +1,40 @@
+Package: sars2death
+Title: COVID-19 data resources and analysis tools cut down for an interactive app
+Description: The sars2pack package includes COVID-19 data resources, analysis tools, and workflows in R.
+Version: 0.0.55-01
+Date: 2020-11-26
+Authors@R: c(person("Sean", "Davis", role = c("aut"),
+                    email = 'seandavi@gmail.com',
+                    comment = c('ORCID'="0000-0002-8991-6458")),
+             person("John C", "Mallery", role = c("ctb")),
+             person("Kevin","Rue-Albrecht", role=c("ctb")),
+             person("Charles", "Morefield", role = c("ctb")),
+             person("Joe","Wasserman", role=c("ctb")),
+             person("VJ", "Carey", role = c("aut", "cre"), email='stvjc@channing.harvard.edu'))
+Suggests:
+    knitr,
+    BiocStyle,
+    data.table,
+    testthat,
+    DT,
+    htmltools,
+    htmlwidgets,
+    plotly,
+    magick,
+    listviewer,
+    dbplyr,
+    rmarkdown,
+    zoo
+Depends: R (>= 3.5.0)
+Imports: methods, utils, lubridate, magrittr, dplyr, tidyr, countrycode,
+    openxlsx, tibble, jsonlite, httr, readr, BiocFileCache, forecast,
+    graphics, stats, rmeta, EpiEstim, shinytoastr, parallel
+Url: https://github.com/vjcitn/sars2death
+BugReports: https://github.com/vjcitn/sars2death/issues/new
+License: MIT + file LICENSE
+LazyLoad: yes
+LazyData: yes
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Encoding: UTF-8
