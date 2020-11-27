@@ -42,3 +42,8 @@
 #' @docType data
 #' @format S3 instance
 "min_bic_2020_11_26_death"
+
+#' a statewide collection of best AR/MA model orders, 10/07, death only, for debugging
+#' @docType data
+#' @format S3 instance
+"min_bic_2020_10_07_death"

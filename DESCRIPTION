@@ -1,7 +1,7 @@
 Package: sars2death
 Title: COVID-19 data resources and analysis tools cut down for an interactive app
 Description: The sars2pack package includes COVID-19 data resources, analysis tools, and workflows in R.
-Version: 0.0.55-01
+Version: 0.0.55-02
 Date: 2020-11-26
 Authors@R: c(person("Sean", "Davis", role = c("aut"),
                     email = 'seandavi@gmail.com',
@@ -24,7 +24,8 @@ Suggests:
     listviewer,
     dbplyr,
     rmarkdown,
-    zoo
+    zoo,
+    shiny
 Depends: R (>= 3.5.0)
 Imports: methods, utils, lubridate, magrittr, dplyr, tidyr, countrycode,
     openxlsx, tibble, jsonlite, httr, readr, BiocFileCache, forecast,

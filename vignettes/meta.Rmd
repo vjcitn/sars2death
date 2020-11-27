@@ -19,17 +19,17 @@ output:
 # Introduction
 ```{r doload}
 suppressPackageStartupMessages({
-library(sars2app)
+library(sars2death)
 })
 ```
 
-The `Arima*` functions of sars2app model COVID-19 incidence series.
+The `Arima*` functions of sars2death model COVID-19 incidence series.
 Using ARIMA(0,1,3) by default we get an estimate of drift and the
 standard error of this estimate.
 
 For the US as a whole, as of May 20 2020:
 ```{r lkd1, cache=FALSE}
-library(sars2app)
+library(sars2death)
 ej = enriched_jhu_data()
 usa_full = Arima_nation(ej, max_date="2020-05-20")
 usa_full
